@@ -35,18 +35,33 @@ public class TelegramUserService {
     }
 
     public Optional<TelegramUser> getTelegramUserByTgId(Integer id) {
-        Optional<TelegramUser> foundTelegramUser = telegramUserRepository.findByTg_id(id);
+        Optional<TelegramUser> foundTelegramUser = telegramUserRepository.findByTgid(id);
         return foundTelegramUser;
     }
 
-    public void update(TelegramUser telegramUser) {
-        telegramUserRepository.save(telegramUser);
+    @Transactional(readOnly = false)
+    public void update(TelegramUser updatedTelegramUser) {
+        TelegramUser telegramUserToBeUpdated = telegramUserRepository.findByTgid(updatedTelegramUser.getTgid()).get();
+
+        telegramUserToBeUpdated.setIsbot(updatedTelegramUser.getIsbot());
+        telegramUserToBeUpdated.setFirstname(updatedTelegramUser.getFirstname());
+        telegramUserToBeUpdated.setLastname(updatedTelegramUser.getLastname());
+        telegramUserToBeUpdated.setUsername(updatedTelegramUser.getUsername());
+        telegramUserToBeUpdated.setLanguageCode(updatedTelegramUser.getLanguageCode());
+        telegramUserToBeUpdated.setPremium(updatedTelegramUser.getPremium());
+        telegramUserToBeUpdated.setPhotoUrl(updatedTelegramUser.getPhotoUrl());
+        telegramUserToBeUpdated.setCreatedAt(updatedTelegramUser.getCreatedAt());
+
+
+
+        telegramUserRepository.save(telegramUserToBeUpdated);
 
     }
 
+    @Transactional(readOnly = false)
     public void delete(int tg_id) {
         TelegramUser foundTelegramUser = getTelegramUserByTgId(tg_id).orElseThrow(TelegramUserNotFoundException::new);
-        telegramUserRepository.delete(foundTelegramUser);
+        telegramUserRepository.deleteById(foundTelegramUser.getId());
     }
 
     private void enrichTelegramUser(TelegramUser telegramUser) {

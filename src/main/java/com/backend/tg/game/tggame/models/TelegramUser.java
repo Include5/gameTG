@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tablica")
+@Table(name = "telegram_user")
 public class TelegramUser {
 
     @Id
@@ -13,7 +13,7 @@ public class TelegramUser {
     private int id;
 
     @Column(name = "tg_id")
-    private int tg_id;
+    private int tgid;
 
     @Column(name = "is_bot")
     private Boolean isbot;
@@ -33,7 +33,7 @@ public class TelegramUser {
     @Column(name = "is_premium")
     private Boolean isPremium;
 
-    @Column(name = "photou_rl")
+    @Column(name = "photo_url")
     private String photoUrl;
 
     @Column(name = "created_at")
@@ -51,12 +51,12 @@ public class TelegramUser {
         this.id = id;
     }
 
-    public int getTg_id() {
-        return tg_id;
+    public int getTgid() {
+        return tgid;
     }
 
-    public void setTg_id(int tg_id) {
-        this.tg_id = tg_id;
+    public void setTgid(int tgid) {
+        this.tgid = tgid;
     }
 
     public Boolean getIsbot() {
@@ -131,7 +131,7 @@ public class TelegramUser {
         TelegramUser that = (TelegramUser) o;
 
         if (id != that.id) return false;
-        if (tg_id != that.tg_id) return false;
+        if (tgid != that.tgid) return false;
         if (isbot != null ? !isbot.equals(that.isbot) : that.isbot != null) return false;
         if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
         if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
@@ -144,7 +144,7 @@ public class TelegramUser {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + tg_id;
+        result = 31 * result + tgid;
         result = 31 * result + (isbot != null ? isbot.hashCode() : 0);
         result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);

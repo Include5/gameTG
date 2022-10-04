@@ -41,7 +41,7 @@ public class TelegramUserController {
         // собираем всё в список ArrayList и через фреймворк Jackson отдаётся json ответом
     }
 
-    @PostMapping("/create")
+    @PostMapping("")
     public ResponseEntity<HttpStatus> createTelegramUser(@RequestBody @Valid TelegramUserDTO telegramUserDTO,
                                                          BindingResult bindingResult) {
 
@@ -57,7 +57,7 @@ public class TelegramUserController {
             throw new TelegramUserNotCreatedException(errorMsg.toString());
         }
 
-        if (telegramUserService.getTelegramUserByTgId(telegramUserDTO.getTg_id()).isPresent())
+        if (telegramUserService.getTelegramUserByTgId(telegramUserDTO.getTgid()).isPresent())
             throw new TelegramUserNotCreatedException("User is already exists");
 
         telegramUserService.save(convertToTelegramUser(telegramUserDTO));
@@ -66,7 +66,7 @@ public class TelegramUserController {
 
     }
 
-    @PostMapping("/update")
+    @PatchMapping()
     public ResponseEntity<HttpStatus> updateTelegramUser(@RequestBody @Valid TelegramUserDTO telegramUserDTO,
                                                          BindingResult bindingResult) {
 
@@ -82,7 +82,7 @@ public class TelegramUserController {
             throw new TelegramUserNotCreatedException(errorMsg.toString()); // создать отдельную ошибку
         }
 
-        if (telegramUserService.getTelegramUserByTgId(telegramUserDTO.getTg_id()).isEmpty())
+        if (telegramUserService.getTelegramUserByTgId(telegramUserDTO.getTgid()).isEmpty())
             throw new TelegramUserNotFoundException();
 
         telegramUserService.update(convertToTelegramUser(telegramUserDTO));
@@ -90,7 +90,7 @@ public class TelegramUserController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     public void deleteTelegramUser(@PathVariable("id") int id) {
         telegramUserService.delete(id);
     }
