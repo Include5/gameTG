@@ -8,3 +8,5 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 }
+
+// jdbc:postgresql://34.77.79.154:5432/gametg

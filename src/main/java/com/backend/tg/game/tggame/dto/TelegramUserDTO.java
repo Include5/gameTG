@@ -8,83 +8,83 @@ import java.time.LocalDateTime;
 
 public class TelegramUserDTO {
 
-    private int tgid;
+    private int id;
 
-    private Boolean isbot;
+    private Boolean is_bot;
 
-    private String firstname;
+    private String first_name;
 
-    private String lastname;
+    private String last_name;
 
-    private String username;
+    private String user_name;
 
-    private String languageCode;
+    private String language_Code;
 
-    private Boolean isPremium;
+    private Boolean is_premium;
 
-    private String photoUrl;
+    private String photo_url;
 
-    public int getTgid() {
-        return tgid;
+    public int getId() {
+        return id;
     }
 
-    public void setTgid(int tgid) {
-        this.tgid = tgid;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Boolean getIsbot() {
-        return isbot;
+    public Boolean getIs_bot() {
+        return is_bot;
     }
 
-    public void setIsbot(Boolean isbot) {
-        this.isbot = isbot;
+    public void setIs_bot(Boolean is_bot) {
+        this.is_bot = is_bot;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLast_name() {
+        return last_name;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
-    public String getLanguageCode() {
-        return languageCode;
+    public String getLanguage_Code() {
+        return language_Code;
     }
 
-    public void setLanguageCode(String languageCode) {
-        this.languageCode = languageCode;
+    public void setLanguage_Code(String language_Code) {
+        this.language_Code = language_Code;
     }
 
-    public Boolean getPremium() {
-        return isPremium;
+    public Boolean getIs_premium() {
+        return is_premium;
     }
 
-    public void setPremium(Boolean premium) {
-        isPremium = premium;
+    public void setIs_premium(Boolean is_premium) {
+        this.is_premium = is_premium;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
+    public String getPhoto_url() {
+        return photo_url;
     }
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+    public void setPhoto_url(String photo_url) {
+        this.photo_url = photo_url;
     }
 }

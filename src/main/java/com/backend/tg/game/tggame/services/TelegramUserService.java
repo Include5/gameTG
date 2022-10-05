@@ -35,21 +35,21 @@ public class TelegramUserService {
     }
 
     public Optional<TelegramUser> getTelegramUserByTgId(Integer id) {
-        Optional<TelegramUser> foundTelegramUser = telegramUserRepository.findByTgid(id);
+        Optional<TelegramUser> foundTelegramUser = telegramUserRepository.findById(id);
         return foundTelegramUser;
     }
 
     @Transactional(readOnly = false)
     public void update(TelegramUser updatedTelegramUser) {
-        TelegramUser telegramUserToBeUpdated = telegramUserRepository.findByTgid(updatedTelegramUser.getTgid()).get();
+        TelegramUser telegramUserToBeUpdated = telegramUserRepository.findById(updatedTelegramUser.getId()).get();
 
-        telegramUserToBeUpdated.setIsbot(updatedTelegramUser.getIsbot());
-        telegramUserToBeUpdated.setFirstname(updatedTelegramUser.getFirstname());
-        telegramUserToBeUpdated.setLastname(updatedTelegramUser.getLastname());
-        telegramUserToBeUpdated.setUsername(updatedTelegramUser.getUsername());
-        telegramUserToBeUpdated.setLanguageCode(updatedTelegramUser.getLanguageCode());
-        telegramUserToBeUpdated.setPremium(updatedTelegramUser.getPremium());
-        telegramUserToBeUpdated.setPhotoUrl(updatedTelegramUser.getPhotoUrl());
+        telegramUserToBeUpdated.setIs_bot(updatedTelegramUser.getIs_bot());
+        telegramUserToBeUpdated.setFirst_name(updatedTelegramUser.getFirst_name());
+        telegramUserToBeUpdated.setLast_name(updatedTelegramUser.getLast_name());
+        telegramUserToBeUpdated.setUser_name(updatedTelegramUser.getUser_name());
+        telegramUserToBeUpdated.setLanguage_сode(updatedTelegramUser.getLanguage_сode());
+        telegramUserToBeUpdated.setIs_premium(updatedTelegramUser.getIs_premium());
+        telegramUserToBeUpdated.setPhoto_url(updatedTelegramUser.getPhoto_url());
         telegramUserToBeUpdated.setCreatedAt(updatedTelegramUser.getCreatedAt());
 
 
@@ -59,9 +59,9 @@ public class TelegramUserService {
     }
 
     @Transactional(readOnly = false)
-    public void delete(int tg_id) {
-        TelegramUser foundTelegramUser = getTelegramUserByTgId(tg_id).orElseThrow(TelegramUserNotFoundException::new);
-        telegramUserRepository.deleteById(foundTelegramUser.getId());
+    public void delete(int id) {
+        TelegramUser foundTelegramUser = getTelegramUserByTgId(id).orElseThrow(TelegramUserNotFoundException::new);
+        telegramUserRepository.deleteById(foundTelegramUser.getUser_id());
     }
 
     private void enrichTelegramUser(TelegramUser telegramUser) {

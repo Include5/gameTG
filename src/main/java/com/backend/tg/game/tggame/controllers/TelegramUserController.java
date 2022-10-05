@@ -57,7 +57,7 @@ public class TelegramUserController {
             throw new TelegramUserNotCreatedException(errorMsg.toString());
         }
 
-        if (telegramUserService.getTelegramUserByTgId(telegramUserDTO.getTgid()).isPresent())
+        if (telegramUserService.getTelegramUserByTgId(telegramUserDTO.getId()).isPresent())
             throw new TelegramUserNotCreatedException("User is already exists");
 
         telegramUserService.save(convertToTelegramUser(telegramUserDTO));
@@ -82,8 +82,8 @@ public class TelegramUserController {
             throw new TelegramUserNotCreatedException(errorMsg.toString()); // создать отдельную ошибку
         }
 
-        if (telegramUserService.getTelegramUserByTgId(telegramUserDTO.getTgid()).isEmpty())
-            throw new TelegramUserNotFoundException();
+//        if (telegramUserService.getTelegramUserByTgId(telegramUserDTO.getTgid()))
+//            throw new TelegramUserNotFoundException();
 
         telegramUserService.update(convertToTelegramUser(telegramUserDTO));
 

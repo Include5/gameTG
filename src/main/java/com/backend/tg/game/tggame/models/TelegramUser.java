@@ -8,39 +8,47 @@ import java.time.LocalDateTime;
 public class TelegramUser {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int user_id;
+
+    @Column(name = "id")
     private int id;
 
-    @Column(name = "tg_id")
-    private int tgid;
-
     @Column(name = "is_bot")
-    private Boolean isbot;
+    private Boolean is_bot;
 
     @Column(name = "first_name")
-    private String firstname;
+    private String first_name;
 
     @Column(name = "last_name")
-    private String lastname;
+    private String last_name;
 
     @Column(name = "user_name")
-    private String username;
+    private String user_name;
 
     @Column(name = "language_code")
-    private String languageCode;
+    private String language_сode;
 
     @Column(name = "is_premium")
-    private Boolean isPremium;
+    private Boolean is_premium;
 
     @Column(name = "photo_url")
-    private String photoUrl;
+    private String photo_url;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     public TelegramUser() {
 
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     public int getId() {
@@ -51,68 +59,60 @@ public class TelegramUser {
         this.id = id;
     }
 
-    public int getTgid() {
-        return tgid;
+    public Boolean getIs_bot() {
+        return is_bot;
     }
 
-    public void setTgid(int tgid) {
-        this.tgid = tgid;
+    public void setIs_bot(Boolean is_bot) {
+        this.is_bot = is_bot;
     }
 
-    public Boolean getIsbot() {
-        return isbot;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setIsbot(Boolean isbot) {
-        this.isbot = isbot;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getLast_name() {
+        return last_name;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
-    public String getUsername() {
-        return username;
+    public String getLanguage_сode() {
+        return language_сode;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLanguage_сode(String language_сode) {
+        this.language_сode = language_сode;
     }
 
-    public String getLanguageCode() {
-        return languageCode;
+    public Boolean getIs_premium() {
+        return is_premium;
     }
 
-    public void setLanguageCode(String languageCode) {
-        this.languageCode = languageCode;
+    public void setIs_premium(Boolean is_premium) {
+        this.is_premium = is_premium;
     }
 
-    public Boolean getPremium() {
-        return isPremium;
+    public String getPhoto_url() {
+        return photo_url;
     }
 
-    public void setPremium(Boolean premium) {
-        isPremium = premium;
-    }
-
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
-
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+    public void setPhoto_url(String photo_url) {
+        this.photo_url = photo_url;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -130,27 +130,28 @@ public class TelegramUser {
 
         TelegramUser that = (TelegramUser) o;
 
+        if (user_id != that.user_id) return false;
         if (id != that.id) return false;
-        if (tgid != that.tgid) return false;
-        if (isbot != null ? !isbot.equals(that.isbot) : that.isbot != null) return false;
-        if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
-        if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
-        if (username != null ? !username.equals(that.username) : that.username != null) return false;
-        if (languageCode != null ? !languageCode.equals(that.languageCode) : that.languageCode != null) return false;
-        if (isPremium != null ? !isPremium.equals(that.isPremium) : that.isPremium != null) return false;
+        if (is_bot != null ? !is_bot.equals(that.is_bot) : that.is_bot != null) return false;
+        if (first_name != null ? !first_name.equals(that.first_name) : that.first_name != null) return false;
+        if (last_name != null ? !last_name.equals(that.last_name) : that.last_name != null) return false;
+        if (user_name != null ? !user_name.equals(that.user_name) : that.user_name != null) return false;
+        if (language_сode != null ? !language_сode.equals(that.language_сode) : that.language_сode != null)
+            return false;
+        if (is_premium != null ? !is_premium.equals(that.is_premium) : that.is_premium != null) return false;
         return createdAt != null ? createdAt.equals(that.createdAt) : that.createdAt == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + tgid;
-        result = 31 * result + (isbot != null ? isbot.hashCode() : 0);
-        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
-        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (languageCode != null ? languageCode.hashCode() : 0);
-        result = 31 * result + (isPremium != null ? isPremium.hashCode() : 0);
+        int result = user_id;
+        result = 31 * result + id;
+        result = 31 * result + (is_bot != null ? is_bot.hashCode() : 0);
+        result = 31 * result + (first_name != null ? first_name.hashCode() : 0);
+        result = 31 * result + (last_name != null ? last_name.hashCode() : 0);
+        result = 31 * result + (user_name != null ? user_name.hashCode() : 0);
+        result = 31 * result + (language_сode != null ? language_сode.hashCode() : 0);
+        result = 31 * result + (is_premium != null ? is_premium.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         return result;
     }
