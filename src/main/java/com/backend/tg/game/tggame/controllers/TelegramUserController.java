@@ -37,8 +37,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/tg_users")
 public class TelegramUserController {
 
-//    private final String TELEGRAM_TOKEN = "5418283143:AAEzOiQAUq7ICppHTwQ7fydUsmSunM00LS8";
-
     private final TelegramUserService telegramUserService;
 
     private final Environment environment;
