@@ -11,6 +11,8 @@ import org.apache.commons.codec.binary.Hex;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -24,29 +26,29 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+@PropertySource("classpath:telegram.properties")
 @RestController
 @RequestMapping("/api/tg_users")
 public class TelegramUserController {
 
-    private final String TELEGRAM_TOKEN = "5418283143:AAEzOiQAUq7ICppHTwQ7fydUsmSunM00LS8";
+//    private final String TELEGRAM_TOKEN = "5418283143:AAEzOiQAUq7ICppHTwQ7fydUsmSunM00LS8";
 
     private final TelegramUserService telegramUserService;
+
+    private final Environment environment;
 
     private final ModelMapper modelMapper;
 
     @Autowired
-    public TelegramUserController(TelegramUserService telegramUserService, ModelMapper modelMapper) {
+    public TelegramUserController(TelegramUserService telegramUserService, Environment environment, ModelMapper modelMapper) {
         this.telegramUserService = telegramUserService;
+        this.environment = environment;
         this.modelMapper = modelMapper;
     }
 
@@ -225,7 +227,7 @@ public class TelegramUserController {
             SecretKeySpec secretKeySpec = new SecretKeySpec("WebAppData".getBytes(StandardCharsets.UTF_8), "HmacSHA256");
             sha256_HMAC.init(secretKeySpec);
 
-            byte[] secret_key = sha256_HMAC.doFinal(TELEGRAM_TOKEN.getBytes(StandardCharsets.UTF_8));
+            byte[] secret_key = sha256_HMAC.doFinal(Objects.requireNonNull(environment.getProperty("TELEGRAM_TOKEN")).getBytes(StandardCharsets.UTF_8));
 
             secretKeySpec = new SecretKeySpec(secret_key, "HmacSHA256");
             sha256_HMAC.init(secretKeySpec);
