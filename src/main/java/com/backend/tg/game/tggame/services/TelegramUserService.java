@@ -35,7 +35,7 @@ public class TelegramUserService {
     }
 
     public Optional<TelegramUser> getTelegramUserByTgId(Integer id) {
-        Optional<TelegramUser> foundTelegramUser = telegramUserRepository.findById(id);
+        Optional<TelegramUser> foundTelegramUser = telegramUserRepository.findByTelegramId(id);
         return foundTelegramUser;
     }
 
@@ -46,8 +46,8 @@ public class TelegramUserService {
         telegramUserToBeUpdated.setIs_bot(updatedTelegramUser.getIs_bot());
         telegramUserToBeUpdated.setFirst_name(updatedTelegramUser.getFirst_name());
         telegramUserToBeUpdated.setLast_name(updatedTelegramUser.getLast_name());
-        telegramUserToBeUpdated.setUser_name(updatedTelegramUser.getUser_name());
-        telegramUserToBeUpdated.setLanguage_сode(updatedTelegramUser.getLanguage_сode());
+        telegramUserToBeUpdated.setUsername(updatedTelegramUser.getUsername());
+        telegramUserToBeUpdated.setLanguage_code(updatedTelegramUser.getLanguage_code());
         telegramUserToBeUpdated.setIs_premium(updatedTelegramUser.getIs_premium());
         telegramUserToBeUpdated.setPhoto_url(updatedTelegramUser.getPhoto_url());
         telegramUserToBeUpdated.setCreatedAt(updatedTelegramUser.getCreatedAt());

@@ -8,21 +8,29 @@ import java.time.LocalDateTime;
 
 public class TelegramUserDTO {
 
+    private String query_id;
     private int id;
-
-    private Boolean is_bot;
 
     private String first_name;
 
     private String last_name;
 
-    private String user_name;
+    private String username;
 
-    private String language_Code;
+    private String language_code;
 
-    private Boolean is_premium;
 
-    private String photo_url;
+    private String auth_date;
+
+    private String hash;
+
+    public String getQuery_id() {
+        return query_id;
+    }
+
+    public void setQuery_id(String query_id) {
+        this.query_id = query_id;
+    }
 
     public int getId() {
         return id;
@@ -30,14 +38,6 @@ public class TelegramUserDTO {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Boolean getIs_bot() {
-        return is_bot;
-    }
-
-    public void setIs_bot(Boolean is_bot) {
-        this.is_bot = is_bot;
     }
 
     public String getFirst_name() {
@@ -56,35 +56,35 @@ public class TelegramUserDTO {
         this.last_name = last_name;
     }
 
-    public String getUser_name() {
-        return user_name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getLanguage_Code() {
-        return language_Code;
+    public String getLanguage_code() {
+        return language_code;
     }
 
-    public void setLanguage_Code(String language_Code) {
-        this.language_Code = language_Code;
+    public void setLanguage_code(String language_code) {
+        this.language_code = language_code;
     }
 
-    public Boolean getIs_premium() {
-        return is_premium;
+    public String getAuth_date() {
+        return auth_date;
     }
 
-    public void setIs_premium(Boolean is_premium) {
-        this.is_premium = is_premium;
+    public void setAuth_date(String auth_date) {
+        this.auth_date = auth_date;
     }
 
-    public String getPhoto_url() {
-        return photo_url;
+    public String getHash() {
+        return hash;
     }
 
-    public void setPhoto_url(String photo_url) {
-        this.photo_url = photo_url;
+    public void setHash(String hash) {
+        this.hash = hash;
     }
 }
