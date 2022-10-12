@@ -40,7 +40,7 @@ public class TelegramUser {
 
     private String hash;
 
-    private String auth_date;
+    private Integer auth_date;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -138,11 +138,11 @@ public class TelegramUser {
         this.hash = hash;
     }
 
-    public String getAuth_date() {
+    public Integer getAuth_date() {
         return auth_date;
     }
 
-    public void setAuth_date(String auth_date) {
+    public void setAuth_date(Integer auth_date) {
         this.auth_date = auth_date;
     }
 

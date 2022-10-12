@@ -30,7 +30,6 @@ public class TelegramUserService {
     @Transactional(readOnly = false)
     public void save(TelegramUser telegramUser) {
         enrichTelegramUser(telegramUser);
-
         telegramUserRepository.save(telegramUser);
     }
 
@@ -40,22 +39,29 @@ public class TelegramUserService {
     }
 
     @Transactional(readOnly = false)
-    public void update(TelegramUser updatedTelegramUser) {
-        TelegramUser telegramUserToBeUpdated = telegramUserRepository.findById(updatedTelegramUser.getId()).get();
+    public void update(TelegramUser telegramUser) {
+        TelegramUser updatedTelegramUser = telegramUserRepository.findByTelegramId(telegramUser.getId()).get();
 
-        telegramUserToBeUpdated.setIs_bot(updatedTelegramUser.getIs_bot());
-        telegramUserToBeUpdated.setFirst_name(updatedTelegramUser.getFirst_name());
-        telegramUserToBeUpdated.setLast_name(updatedTelegramUser.getLast_name());
-        telegramUserToBeUpdated.setUsername(updatedTelegramUser.getUsername());
-        telegramUserToBeUpdated.setLanguage_code(updatedTelegramUser.getLanguage_code());
-        telegramUserToBeUpdated.setIs_premium(updatedTelegramUser.getIs_premium());
-        telegramUserToBeUpdated.setPhoto_url(updatedTelegramUser.getPhoto_url());
-        telegramUserToBeUpdated.setCreatedAt(updatedTelegramUser.getCreatedAt());
+//        System.out.println("updatedTelegramUser.getCreatedAt(): " + updatedTelegramUser.getCreatedAt());
+//        System.out.println("telegramUser.getCreatedAt(): " + telegramUser.getCreatedAt());
 
+        // createdAt, id - нет смысла обновлять
 
+        updatedTelegramUser.setFirst_name(telegramUser.getFirst_name());
+        updatedTelegramUser.setLast_name(telegramUser.getLast_name());
+        updatedTelegramUser.setUsername(telegramUser.getUsername());
+        updatedTelegramUser.setLanguage_code(telegramUser.getLanguage_code());
+        updatedTelegramUser.setFirst_name(telegramUser.getQuery_id());
+        updatedTelegramUser.setHash(telegramUser.getHash());
+        updatedTelegramUser.setAuth_date(telegramUser.getAuth_date());
 
-        telegramUserRepository.save(telegramUserToBeUpdated);
+        // Эти данные неизвестны. Можно попробовать делать апи запрос к телеге и получать их отдельно.
+        // updatedTelegramUser.setIs_premium(telegramUser.getIs_premium());
+        // updatedTelegramUser.setPhoto_url(telegramUser.getPhoto_url());
 
+        // createdAt при обновлении всё равно обновляется на null, хотя в коде нигде не обновляю
+
+        telegramUserRepository.save(updatedTelegramUser);
     }
 
     @Transactional(readOnly = false)

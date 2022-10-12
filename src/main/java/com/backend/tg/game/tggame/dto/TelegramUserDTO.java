@@ -20,7 +20,7 @@ public class TelegramUserDTO {
     private String language_code;
 
 
-    private String auth_date;
+    private Integer auth_date;
 
     private String hash;
 
@@ -72,11 +72,11 @@ public class TelegramUserDTO {
         this.language_code = language_code;
     }
 
-    public String getAuth_date() {
+    public Integer getAuth_date() {
         return auth_date;
     }
 
-    public void setAuth_date(String auth_date) {
+    public void setAuth_date(Integer auth_date) {
         this.auth_date = auth_date;
     }
 
