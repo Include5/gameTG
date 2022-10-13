@@ -41,16 +41,20 @@ public class TelegramUserService {
 
     @Transactional(readOnly = false)
     public void update(TelegramUser updatedTelegramUser) {
-        TelegramUser telegramUserToBeUpdated = telegramUserRepository.findById(updatedTelegramUser.getId()).get();
+        TelegramUser telegramUserToBeUpdated = telegramUserRepository.findByTelegramId(updatedTelegramUser.getId()).get();
 
-        telegramUserToBeUpdated.setIs_bot(updatedTelegramUser.getIs_bot());
+
+        telegramUserToBeUpdated.setQuery_id(updatedTelegramUser.getQuery_id());
+        telegramUserToBeUpdated.setId(updatedTelegramUser.getId());
         telegramUserToBeUpdated.setFirst_name(updatedTelegramUser.getFirst_name());
         telegramUserToBeUpdated.setLast_name(updatedTelegramUser.getLast_name());
         telegramUserToBeUpdated.setUsername(updatedTelegramUser.getUsername());
+
         telegramUserToBeUpdated.setLanguage_code(updatedTelegramUser.getLanguage_code());
         telegramUserToBeUpdated.setIs_premium(updatedTelegramUser.getIs_premium());
-        telegramUserToBeUpdated.setPhoto_url(updatedTelegramUser.getPhoto_url());
-        telegramUserToBeUpdated.setCreatedAt(updatedTelegramUser.getCreatedAt());
+        telegramUserToBeUpdated.setHash(updatedTelegramUser.getHash());
+        telegramUserToBeUpdated.setAuth_date(updatedTelegramUser.getAuth_date());
+//        telegramUserToBeUpdated.setCreatedAt(updatedTelegramUser.getCreatedAt());
 
 
 

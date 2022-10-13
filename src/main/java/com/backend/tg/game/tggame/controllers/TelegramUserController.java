@@ -3,6 +3,7 @@ package com.backend.tg.game.tggame.controllers;
 import com.backend.tg.game.tggame.dto.TelegramUserDTO;
 import com.backend.tg.game.tggame.dto.TelegramUserResponse;
 import com.backend.tg.game.tggame.models.TelegramUser;
+import com.backend.tg.game.tggame.security.JWTUtil;
 import com.backend.tg.game.tggame.services.TelegramUserService;
 import com.backend.tg.game.tggame.util.TelegramUserErrorResponse;
 import com.backend.tg.game.tggame.util.TelegramUserNotCreatedException;
@@ -37,6 +38,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/tg_users")
 public class TelegramUserController {
 
+    private final JWTUtil jwTutil;
+
     private final TelegramUserService telegramUserService;
 
     private final Environment environment;
@@ -44,7 +47,8 @@ public class TelegramUserController {
     private final ModelMapper modelMapper;
 
     @Autowired
-    public TelegramUserController(TelegramUserService telegramUserService, Environment environment, ModelMapper modelMapper) {
+    public TelegramUserController(JWTUtil jwTutil, TelegramUserService telegramUserService, Environment environment, ModelMapper modelMapper) {
+        this.jwTutil = jwTutil;
         this.telegramUserService = telegramUserService;
         this.environment = environment;
         this.modelMapper = modelMapper;
@@ -130,7 +134,7 @@ public class TelegramUserController {
     }
 
     @PostMapping("")
-    public ResponseEntity<HttpStatus> createTelegramUser(@RequestBody @Valid TelegramUserDTO telegramUserDTO,
+    public ResponseEntity<Object> createTelegramUser(@RequestBody @Valid TelegramUserDTO telegramUserDTO,
                                                          BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -150,11 +154,13 @@ public class TelegramUserController {
 
         telegramUserService.save(convertToTelegramUser(telegramUserDTO));
 
-        return ResponseEntity.ok(HttpStatus.CREATED);
+        String token = jwTutil.generateToken(telegramUserDTO.getUsername());
+
+        return ResponseEntity.ok(token);
 
     }
 
-    @PatchMapping()
+    @PatchMapping("")
     public ResponseEntity<HttpStatus> updateTelegramUser(@RequestBody @Valid TelegramUserDTO telegramUserDTO,
                                                          BindingResult bindingResult) {
 

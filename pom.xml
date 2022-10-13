@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.backend.tg.game</groupId>
 	<artifactId>tggame</artifactId>
-	<version>0.0.7-snapshot</version>
+	<version>0.0.8-snapshot</version>
 	<name>tggame</name>
 	<description>tg.game</description>
 	<properties>
@@ -25,6 +25,13 @@
 			<artifactId>commons-codec</artifactId>
 			<version>1.15</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>io.netty</groupId>
