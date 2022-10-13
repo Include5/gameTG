@@ -8,6 +8,9 @@ import com.backend.tg.game.tggame.services.TelegramUserService;
 import com.backend.tg.game.tggame.util.TelegramUserErrorResponse;
 import com.backend.tg.game.tggame.util.TelegramUserNotCreatedException;
 import com.backend.tg.game.tggame.util.TelegramUserNotFoundException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.binary.Hex;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -16,6 +19,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -67,70 +71,46 @@ public class TelegramUserController {
     public ResponseEntity<Object> telegramAuth(@RequestBody Map<String, String> request) throws UnsupportedEncodingException {
 
         // возможно стоит вынести в метод и переименовать переменные
-        String s = String.valueOf(request.values()).replace("[", "").replace("]", "");
-        String[] parsed = s.split("hash=", 2);
-        String encoded = URLDecoder.decode(parsed[0], "UTF-8");
-        String[] array = encoded.split("&");
-        Arrays.sort(array);
-        String dataCheckString = String.join("\n", array);
+        String initData = request.get("initData");
+        String[] parsed = initData.split("hash=", 2);
+        String hash = parsed[1];
 
-        // парсим данные для занесения в БД
-        ArrayList<String> list = userDataParse(dataCheckString);
+        String decoded = URLDecoder.decode(parsed[0], "UTF-8");
 
-        TelegramUserDTO telegramUserDTO = new TelegramUserDTO();
-        telegramUserDTO.setId(Integer.parseInt(list.get(0)));
-        telegramUserDTO.setFirst_name(list.get(1));
-        telegramUserDTO.setLast_name(list.get(2));
-        telegramUserDTO.setUsername(list.get(3));
-        telegramUserDTO.setLanguage_code(list.get(4));
-        telegramUserDTO.setAuth_date(list.get(5));
-        telegramUserDTO.setQuery_id(list.get(6));
+        String[] data = decoded.split("&");
+        Arrays.sort(data);
 
-        String _hash = telegramTokenCheck(dataCheckString);
+        String dataCheckString = String.join("\n", data);
 
+        Boolean isValid = validateInitData(dataCheckString, hash);
 
-        if (!telegramUserService.getTelegramUserByTgId(Integer.valueOf(list.get(0))).isPresent()) {
-
-            if (parsed[1].compareToIgnoreCase(_hash) == 0) {
-                telegramUserService.save(convertToTelegramUser(telegramUserDTO));
-                // возвращаем токен
-
-            } else {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
-                        "Hash not equals"
-                );
-            }
+        if (!isValid) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("BadRequestException");
         }
 
-        if (telegramUserService.getTelegramUserByTgId(Integer.valueOf(list.get(0))).isPresent()) {
-            TelegramUser telegramUser = telegramUserService.getTelegramUserByTgId(Integer.valueOf(list.get(0))).get();
+        Integer auth_date = Integer.valueOf(data[0].split("auth_date=", 2)[1]);
+        String query_id = data[1].split("query_id=", 2)[1];
+        String userJsonString = data[2].split("user=", 2)[1];
 
-            parsed[1] = telegramUser.getHash();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            TelegramUser telegramUser = mapper.readValue(userJsonString, TelegramUser.class);
+//            telegramUser.setQuery_id(query_id);
+//            telegramUser.setAuth_date(auth_date);
+//            telegramUser.setHash(hash);
 
-            if (parsed[1].compareToIgnoreCase(_hash) == 0) {
-                // возвращаем токен
+            if (!telegramUserService.getTelegramUserByTgId(telegramUser.getId()).isPresent()) {
+                // User does not exist. Create one
             } else {
-                telegramUserService.update(convertToTelegramUser(telegramUserDTO));
-                // поправит хуйню шоб норм было
-                if (parsed[1].compareToIgnoreCase(_hash) == 0) {
-                    // возвращать хеш
-                } else {
-                    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
-                            "Hash not equals"
-                    );
-                }
+                // User exists. Update one
             }
 
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
 
-        // если юзер есть по айди - берём хеш и бд - сравниваем с текущим - не совпадает -
-        // обновляем и возвращаем токен - совпадает - возвроащаем токен
-
-        // если юзера нет - проверяем хеш - создаём аккаунт - возвращаем токен
-                // возвращать ошибку
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
-                        "govno"
-                );
+        // return user
+        return ResponseEntity.status(HttpStatus.OK).body("");
     }
 
     @PostMapping("")
@@ -223,7 +203,7 @@ public class TelegramUserController {
         // Переводит из TelegramUser в TelegramUserDTO
     }
 
-    private String telegramTokenCheck(String dataCheckString) {
+    private Boolean validateInitData(String dataCheckString, String hash) {
 
         try {
             Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
@@ -236,7 +216,7 @@ public class TelegramUserController {
             secretKeySpec = new SecretKeySpec(secret_key, "HmacSHA256");
             sha256_HMAC.init(secretKeySpec);
 
-            return Hex.encodeHexString(sha256_HMAC.doFinal(dataCheckString.getBytes(StandardCharsets.UTF_8)));
+            return hash.equals(Hex.encodeHexString(sha256_HMAC.doFinal(dataCheckString.getBytes(StandardCharsets.UTF_8))));
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             throw new RuntimeException(e);
         }
